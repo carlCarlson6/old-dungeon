@@ -1,10 +1,9 @@
 import React from 'react';
-import '../styles/global.css';
+import '../console/ui/global.css';
 import Head from 'next/head';
 
 const App = ({ Component, pageProps }) => {
   const inputRef = React.useRef<HTMLInputElement>(null);
-
   const onClickAnywhere = () => {
     inputRef.current.focus();
   };

@@ -1,7 +1,7 @@
 import React from 'react';
-import { commandExists } from '../utils/commandExists';
-import { shell } from '../utils/shell';
-import { handleTabCompletion } from '../utils/tabCompletion';
+import { commandExists } from '../commandExists';
+import { shell } from '../shell';
+import { handleTabCompletion } from '../tabCompletion';
 import { Ps1 } from './Ps1';
 
 export const Input = ({
