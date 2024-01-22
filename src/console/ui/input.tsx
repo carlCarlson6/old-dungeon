@@ -2,7 +2,9 @@ import React from 'react';
 import { commandExists } from '../commandExists';
 import { shell } from '../shell';
 import { handleTabCompletion } from '../tabCompletion';
-import { Ps1 } from './Ps1';
+import { HistoryEntry } from './History';
+import { Game } from '../../game';
+import { PS1 } from './Ps1';
 
 export const Input = ({
   inputRef,
@@ -15,10 +17,22 @@ export const Input = ({
   setLastCommandIndex,
   clearHistory,
   game,
-  updateGmae,
+  updateGame,
+}: {
+  inputRef: React.MutableRefObject<HTMLInputElement>,
+  containerRef: any,
+  command: string,
+  history: HistoryEntry[],
+  lastCommandIndex: number,
+  setCommand: (value: string) => void,
+  setHistory: (value: string) => void,
+  setLastCommandIndex: (lastCommandIndex: number) => void;
+  clearHistory: () => void,
+  game: Game | null,
+  updateGame: (value: Game) => void,
 }) => {
   const onSubmit = async (event: React.KeyboardEvent<HTMLInputElement>) => {
-    const commands: [string] = history
+    const commands = history
       .map(({ command }) => command)
       .filter((command: string) => command);
 
@@ -42,7 +56,7 @@ export const Input = ({
     if (event.key === 'Enter' || event.code === '13') {
       event.preventDefault();
       setLastCommandIndex(0);
-      await shell(command, setHistory, clearHistory, setCommand, game, updateGmae);
+      await shell(command, setHistory, clearHistory, setCommand, game, updateGame);
       containerRef.current.scrollTo(0, containerRef.current.scrollHeight);
     }
 
@@ -83,7 +97,7 @@ export const Input = ({
   return (
     <div className="flex flex-row space-x-2">
       <label htmlFor="prompt" className="flex-shrink">
-        <Ps1 />
+        <PS1 />
       </label>
 
       <input

@@ -21,7 +21,7 @@ const IndexPage: React.FC<IndexPageProps> = ({ inputRef }) => {
     clearHistory,
     setLastCommandIndex,
   } = useHistory([]);
-  const [game, setGame] = useState<Game|null>(null);
+  const [game, setGame] = useState<Game | null>(null);
 
   const init = React.useCallback(async () => {
     const bannerResult = await banner();
@@ -39,27 +39,31 @@ const IndexPage: React.FC<IndexPageProps> = ({ inputRef }) => {
     }
   }, [history]);
 
-  return (<>
-    <Head><title>{config.title}</title></Head>
-    <div className="p-8 overflow-hidden h-full border-2 rounded border-light-yellow dark:border-dark-yellow">
-      <div ref={containerRef} className="overflow-y-auto h-full">
-        <History history={history} />
-        <Input
-          inputRef={inputRef}
-          containerRef={containerRef}
-          command={command}
-          history={history}
-          lastCommandIndex={lastCommandIndex}
-          setCommand={setCommand}
-          setHistory={setHistory}
-          setLastCommandIndex={setLastCommandIndex}
-          clearHistory={clearHistory}
-          game={game}
-          updateGmae={setGame}
-        />
+  return (
+    <>
+      <Head>
+        <title>{config.title}</title>
+      </Head>
+      <div className="p-8 overflow-hidden h-full border-2 rounded border-light-yellow dark:border-dark-yellow">
+        <div ref={containerRef} className="overflow-y-auto h-full">
+          <History history={history} />
+          <Input
+            inputRef={inputRef}
+            containerRef={containerRef}
+            command={command}
+            history={history}
+            lastCommandIndex={lastCommandIndex}
+            setCommand={setCommand}
+            setHistory={setHistory}
+            setLastCommandIndex={setLastCommandIndex}
+            clearHistory={clearHistory}
+            game={game}
+            updateGame={(value) => setGame(value)}
+          />
+        </div>
       </div>
-    </div>
-  </>);
+    </>
+  );
 };
 
 export default IndexPage;
