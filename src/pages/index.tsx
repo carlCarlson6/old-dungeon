@@ -1,10 +1,10 @@
 import Head from 'next/head';
-import React from 'react';
+import React, { useState } from 'react';
 import config from '../../config.json';
 import { Input } from '../console/ui/input';
-import { useHistory } from '../console/ui/history/hook';
-import { History } from '../console/ui/history/History';
-import { banner } from '../console/bin/commands';
+import { History, useHistory } from '../console/ui/History';
+import { banner } from '../console/bin/banner';
+import { Game } from '../game';
 
 interface IndexPageProps {
   inputRef: React.MutableRefObject<HTMLInputElement>;
@@ -21,8 +21,12 @@ const IndexPage: React.FC<IndexPageProps> = ({ inputRef }) => {
     clearHistory,
     setLastCommandIndex,
   } = useHistory([]);
+  const [game, setGame] = useState<Game|null>(null);
 
-  const init = React.useCallback(() => setHistory(banner()), []);
+  const init = React.useCallback(async () => {
+    const bannerResult = await banner();
+    setHistory(bannerResult);
+  }, []);
 
   React.useEffect(() => {
     init();
@@ -35,31 +39,27 @@ const IndexPage: React.FC<IndexPageProps> = ({ inputRef }) => {
     }
   }, [history]);
 
-  return (
-    <>
-      <Head>
-        <title>{config.title}</title>
-      </Head>
-
-      <div className="p-8 overflow-hidden h-full border-2 rounded border-light-yellow dark:border-dark-yellow">
-        <div ref={containerRef} className="overflow-y-auto h-full">
-          <History history={history} />
-
-          <Input
-            inputRef={inputRef}
-            containerRef={containerRef}
-            command={command}
-            history={history}
-            lastCommandIndex={lastCommandIndex}
-            setCommand={setCommand}
-            setHistory={setHistory}
-            setLastCommandIndex={setLastCommandIndex}
-            clearHistory={clearHistory}
-          />
-        </div>
+  return (<>
+    <Head><title>{config.title}</title></Head>
+    <div className="p-8 overflow-hidden h-full border-2 rounded border-light-yellow dark:border-dark-yellow">
+      <div ref={containerRef} className="overflow-y-auto h-full">
+        <History history={history} />
+        <Input
+          inputRef={inputRef}
+          containerRef={containerRef}
+          command={command}
+          history={history}
+          lastCommandIndex={lastCommandIndex}
+          setCommand={setCommand}
+          setHistory={setHistory}
+          setLastCommandIndex={setLastCommandIndex}
+          clearHistory={clearHistory}
+          game={game}
+          updateGmae={setGame}
+        />
       </div>
-    </>
-  );
+    </div>
+  </>);
 };
 
 export default IndexPage;

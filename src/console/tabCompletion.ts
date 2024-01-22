@@ -1,14 +1,24 @@
-import {bin} from './bin';
+import {gameBin, shellBin} from './bin';
 
 export const handleTabCompletion = (
   command: string,
-  setCommand: React.Dispatch<React.SetStateAction<string>>,
+  setCommand: (command: string) => void,
 ) => {
-  const commands = Object.keys(bin).filter((entry) =>
+  const shellCommands = ['clear', ...Object.keys(shellBin)].filter((entry) =>
     entry.startsWith(command),
   );
+  if (shellCommands.length === 1) {
+    setCommand(shellCommands[0]);
+    return;
+  }
 
-  if (commands.length === 1) {
-    setCommand(commands[0]);
+  const gameCommands = ['initgame', ...Object.keys(gameBin)].filter((entry) =>
+    entry.startsWith(command),
+  );
+  if (gameCommands.length === 1) {
+    setCommand(gameCommands[0]);
+    return;
   }
 };
+
+

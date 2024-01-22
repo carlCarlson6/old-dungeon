@@ -1,10 +1,10 @@
 import { Player } from "./player";
 
 export const enum Directions {
-  North,
-  South,
-  West,
-  East
+  North = 'NORTH',
+  South = 'SOUTH',
+  West = 'WEST',
+  East = 'EAST'
 }
 
 type RoomId = string;
@@ -14,7 +14,7 @@ type RoomConnection = RoomId | undefined;
 type Room = {
   id: string;
   description: string;
-  connections: Record<Directions, RoomConnection>;
+  connections: Record<string, RoomConnection>;
 }
 
 export type Dungeon = {
