@@ -1,4 +1,4 @@
-import { getRandomInt } from "./player";
+/*import { getRandomInt } from "./player";
 import { match } from "ts-pattern";
 
 type EnemyOptions = {
@@ -55,4 +55,4 @@ const createZombi = () => createEnemy({
     name: 'decrepit arms',
     dice: () => getRandomInt(1,6),
   }]
-});
+});*/
