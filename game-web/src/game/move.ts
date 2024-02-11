@@ -1,8 +1,8 @@
-import { Directions, Game, Room } from ".";
+import { Directions, Game, Room, getCurrentRoom } from ".";
 
 export const move = (game: Game, direction: Directions): { updatedGame: Game, result: 'invalid-movement' | 'with-enemies' | 'ok' } => {
   const maybeNextRoom = game.dungeon.rooms
-    .filter(x => x.id === game.currentRoom.connections[direction])[0];
+    .filter(x => x.id === getCurrentRoom(game).connections[direction])[0];
 
   if (!maybeNextRoom) return {
     result: 'invalid-movement',
@@ -16,7 +16,7 @@ export const move = (game: Game, direction: Directions): { updatedGame: Game, re
     updatedGame: {
       ...game,
       status: areThereEnemies ? 'on-combat' : 'on-going',
-      currentRoom: maybeNextRoom
+      currentRoomId: maybeNextRoom.id
     }
   }
 }

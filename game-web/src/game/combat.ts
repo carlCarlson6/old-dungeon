@@ -1,10 +1,11 @@
-import { Game } from ".";
+import { Game, getCurrentRoom } from ".";
 import { getRandomInt } from "./player";
 
 export const attack = (game: Game, target: string): {
   updatedGame: Game, result: 'enemy-not-found' | 'attack-failed' | 'enemy-defeated' | 'attack-succeded'
 } => {
-  const maybeTargetEnemy = game.currentRoom.enemies.filter(x => x.name === target)[0];
+  const currentRoom = getCurrentRoom(game);
+  const maybeTargetEnemy = currentRoom.enemies.filter(x => x.name === target)[0];
   if (!maybeTargetEnemy) return {
     result: 'enemy-not-found' as const,
     updatedGame: game,
@@ -26,13 +27,13 @@ export const attack = (game: Game, target: string): {
   }
 
   const isDead = updatedEnemy.health.current <= 0;
-  const enemiesWithoutTarget = game.currentRoom.enemies.filter(x => x.name !== maybeTargetEnemy.name);
+  const enemiesWithoutTarget = currentRoom.enemies.filter(x => x.name !== maybeTargetEnemy.name);
   const updatedEnemiesOnRoom = isDead
     ? enemiesWithoutTarget
     : [...enemiesWithoutTarget, updatedEnemy];
 
   const updatedCurrentRoom = {
-    ...game.currentRoom,
+    ...currentRoom,
     enemies: updatedEnemiesOnRoom
   };
 
@@ -40,7 +41,7 @@ export const attack = (game: Game, target: string): {
     result: isDead ? 'enemy-defeated' as const : 'attack-succeded' as const,
     updatedGame: {
       ...game,
-      currentRoom: updatedCurrentRoom,
+      currentRoomId: updatedCurrentRoom.id,
       dungeon: {
         ...game.dungeon,
         rooms: [  

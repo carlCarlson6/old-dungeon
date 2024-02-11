@@ -1,9 +1,10 @@
 import { GameCommand } from ".";
-import { Game } from "../../game";
+import { Game, getCurrentRoom } from "../../game";
 import { attack } from "../../game/combat";
 
 export const fightCommand: GameCommand = (game: Game, args?: string[]) => {
-  if (game.currentRoom.enemies.length === 0) return Promise.resolve({
+  const currentRoom = getCurrentRoom(game);
+  if (currentRoom.enemies.length === 0) return Promise.resolve({
     result: 'no enemies to attack on the room',
     game
   });
@@ -19,7 +20,7 @@ export const fightCommand: GameCommand = (game: Game, args?: string[]) => {
     game
   })
 
-  const result = attack(game, target);
+  attack(game, target);
 
   throw new Error('not implemented')
   return Promise.resolve({

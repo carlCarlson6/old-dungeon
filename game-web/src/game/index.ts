@@ -27,6 +27,12 @@ export type Dungeon = {
 export type Game = {
   player: Player;
   dungeon: Dungeon;
-  currentRoom: Room;
+  currentRoomId: string;
   status: 'on-going' | 'ended' | 'on-combat';
 }
+
+export const getCurrentRoom = (game: Game) => {
+  const maybeCurrentRoom = game.dungeon.rooms.filter(x => x.id === game.currentRoomId)[0];
+  if (!maybeCurrentRoom) throw new Error('COULD_NOT_FIND_CURRENT_ROOM');
+  return game.dungeon.rooms.filter(x => x.id === game.currentRoomId)[0];
+};

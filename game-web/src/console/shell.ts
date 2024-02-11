@@ -1,9 +1,9 @@
 import { gameBin, shellBin } from './bin';
-import { Game } from '../game';
+import { Game, getCurrentRoom } from '../game';
 import { match } from 'ts-pattern';
 import { initGame } from '../game/initGame';
-import { dungeon002 } from '../game/dungeons/dungeon002';
 import { dungeon001 } from '../game/dungeons/dungeon001';
+//import { dungeonTesting } from '../game/dungeons/dungeonTesting';
 
 export const shell = async (
   command: string,
@@ -29,7 +29,7 @@ export const shell = async (
       const restartMessage = game === null ? 'starting game \n' : 'starting game again \n'
       const newGame = initGame(dungeon001);
       updateGame(newGame);
-      setHistory(`${restartMessage}you entern in the dungeon \nyou see ${newGame.currentRoom.description}`)
+      setHistory(`${restartMessage}you entern in the dungeon \nyou see ${getCurrentRoom(newGame).description}`)
     })
     .when(command => Object.keys(gameBin).indexOf(command) !== -1, async command => {
       if (!game) {

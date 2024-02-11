@@ -1,5 +1,5 @@
 import { match } from "ts-pattern";
-import { Directions, Game } from "../../game";
+import { Directions, Game, getCurrentRoom } from "../../game";
 import { move } from "../../game/move";
 
 export function moveCommand(game: Game, args?: string[]) {
@@ -29,14 +29,15 @@ export function moveCommand(game: Game, args?: string[]) {
 
   const { updatedGame, result } = move(game, maybeDirection);
 
-  const baseActionDescription = `you move ${maybeDirection} \nyou see ${updatedGame.currentRoom.description}`;
+  const currentRoom = getCurrentRoom(updatedGame);
+  const baseActionDescription = `you move ${maybeDirection} \nyou see ${currentRoom.description}`;
 
   const resultMessage = match(result)
     .with('invalid-movement', () => 'you can not move into that direction on this room')
     .with('ok', () => baseActionDescription)
     .with('with-enemies', () => baseActionDescription
-      .concat('\n', `there are ${updatedGame.currentRoom.enemies.length} enemies`)
-      .concat('\n', `${updatedGame.currentRoom.enemies.map(x => x.name).join(' ')}`)
+      .concat('\n', `there are ${currentRoom.enemies.length} enemies`)
+      .concat('\n', `${currentRoom.enemies.map(x => x.name).join(' ')}`)
     )
     .exhaustive();
 

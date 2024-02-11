@@ -27,6 +27,7 @@ const createEnemy = (options: EnemyOptions) => {
   }
 }
 
+/*
 const createSkeleton = () => createEnemy({
   level: 1,
   name: 'skeleton',
@@ -36,6 +37,7 @@ const createSkeleton = () => createEnemy({
     dice: () => getRandomInt(1,6),
   }],
 });
+*/
 
 export const createKobolds = (num: number) => Array.from({length: num}, (_, i) => createEnemy({
   level: 0,
@@ -57,6 +59,7 @@ export const createKobold = () => createEnemy({
   }]
 });
 
+/*
 const createZombi = () => createEnemy({
   level: 2,
   name: 'zombi',
@@ -66,3 +69,4 @@ const createZombi = () => createEnemy({
     dice: () => getRandomInt(1,6),
   }]
 });
+*/
