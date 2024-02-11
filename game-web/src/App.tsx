@@ -2,7 +2,6 @@ import Console, { useInputRef } from "./console/ui/Console"
 
 function App() {
   const inputRef = useInputRef();
-
   const onClickAnywhere = () => inputRef.current?.focus();
 
   return (

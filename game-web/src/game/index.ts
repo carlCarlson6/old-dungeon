@@ -1,3 +1,4 @@
+import { Enemy } from "./enemy";
 import { Player } from "./player";
 
 export const enum Directions {
@@ -11,10 +12,11 @@ type RoomId = string;
 
 type RoomConnection = RoomId | undefined;
 
-type Room = {
+export type Room = {
   id: string;
   description: string;
   connections: Record<string, RoomConnection>;
+  enemies: Enemy[];
 }
 
 export type Dungeon = {
@@ -26,5 +28,5 @@ export type Game = {
   player: Player;
   dungeon: Dungeon;
   currentRoom: Room;
-  status: 'on-going' | 'ended'
+  status: 'on-going' | 'ended' | 'on-combat';
 }

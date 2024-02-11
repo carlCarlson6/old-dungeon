@@ -96,5 +96,5 @@ export const dungeon002: Dungeon = {
         'NORTH': '4'
       }
     },
-  ]
+  ],
 };

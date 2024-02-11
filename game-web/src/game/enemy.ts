@@ -1,5 +1,5 @@
-/*import { getRandomInt } from "./player";
 import { match } from "ts-pattern";
+import { getRandomInt } from "./player";
 
 type EnemyOptions = {
   level: number;
@@ -11,15 +11,15 @@ type EnemyOptions = {
   }[],
 }
 
-type Enemy = ReturnType<typeof createEnemy>;
+export type Enemy = ReturnType<typeof createEnemy>;
 
-export const createEnemy = (options: EnemyOptions) => {
+const createEnemy = (options: EnemyOptions) => {
   const maxHealth = match(options.level)
     .when(level => level == 0, () => getRandomInt(1,4))
     .when(level => level <= 1, level => Array.from(Array(level).keys()).reduce(acc => acc+getRandomInt(1,6), getRandomInt(1,6)))
     .run();
   return {
-    healh: {
+    health: {
       max: maxHealth,
       current: maxHealth,
     },
@@ -37,7 +37,17 @@ const createSkeleton = () => createEnemy({
   }],
 });
 
-const createKobold = () => createEnemy({
+export const createKobolds = (num: number) => Array.from({length: num}, (_, i) => createEnemy({
+  level: 0,
+  name: `kobold${i+1}`,
+  defense: 13,
+  attacks: [{
+    name: 'claws',
+    dice: () => getRandomInt(1,6),
+  }]
+}));
+
+export const createKobold = () => createEnemy({
   level: 0,
   name: 'kobold',
   defense: 13,
@@ -55,4 +65,4 @@ const createZombi = () => createEnemy({
     name: 'decrepit arms',
     dice: () => getRandomInt(1,6),
   }]
-});*/
+});

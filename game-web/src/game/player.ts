@@ -15,6 +15,7 @@ export const createPlayer = (options: PlayerOptions) => {
     wisdom: createRandomAttribute(),
     carisma: createRandomAttribute(),
   };
+
   const attackBonus = 0;
 
   return ({
